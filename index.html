@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New mental era // Mental health practice</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root{
+    --bg:#f5f9ff; --panel:#ffffff; --line:#d6e4f5;
+    --txt:#0f2540; --dim:#5a7291; --acc:#1e6fff; --acc2:#00b8d9;
+    --light:#e8f1ff; --shadow:rgba(30,111,255,.10);
+  }
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--txt);font-family:'Inter','Helvetica Neue',Arial,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 28px;}
+
+  .progress{position:fixed;top:0;left:0;height:3px;z-index:200;background:linear-gradient(90deg,var(--acc),var(--acc2));width:0%;transition:width .1s linear;}
+
+  header{background:rgba(245,249,255,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line);padding:16px 0;position:sticky;top:0;z-index:100;}
+  header .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;}
+  .logo{font-size:17px;font-weight:800;letter-spacing:-.4px;color:var(--txt);display:flex;align-items:center;gap:10px;}
+  .logo .mark{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:inline-block;animation:float 3s ease-in-out infinite;}
+  @keyframes float{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-4px) rotate(8deg);}}
+  .nav-right{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .status{font-size:12px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;display:flex;align-items:center;gap:8px;}
+  .dot{width:7px;height:7px;background:var(--acc2);border-radius:50%;animation:pulse 1.4s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(1.3);}}
+
+  .lang{display:flex;gap:4px;background:var(--light);border:1px solid var(--line);border-radius:100px;padding:4px;}
+  .lang button{background:transparent;border:none;padding:7px 14px;border-radius:100px;font-size:12px;font-weight:700;cursor:pointer;color:var(--dim);transition:.25s;font-family:inherit;display:flex;align-items:center;gap:6px;}
+  .lang button:hover{color:var(--acc);}
+  .lang button.active{background:#fff;color:var(--acc);box-shadow:0 2px 8px var(--shadow);}
+  .lang button .flag{font-size:14px;line-height:1;}
+
+  .btn-top{background:var(--txt);color:#fff;text-decoration:none;padding:11px 22px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;transition:.25s;border-radius:100px;}
+  .btn-top:hover{background:var(--acc);transform:translateY(-2px);}
+
+  .hero{padding:110px 0 80px;position:relative;overflow:hidden;border-bottom:1px solid var(--line);}
+  .hero .wrap{position:relative;z-index:1;}
+  h1{font-size:clamp(38px,7vw,84px);font-weight:800;line-height:1.0;letter-spacing:-3px;margin-bottom:32px;max-width:960px;}
+  h1 em{font-style:normal;background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;display:inline-block;}
+  .sub{font-size:clamp(16px,2vw,20px);color:var(--dim);max-width:620px;margin-bottom:42px;}
+  .sub b{color:var(--txt);font-weight:600;}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
+  .btn{display:inline-block;text-decoration:none;padding:17px 32px;font-size:14px;font-weight:700;letter-spacing:.5px;transition:.25s;border:none;cursor:pointer;font-family:inherit;border-radius:100px;}
+  .btn-primary{background:var(--txt);color:#fff;}
+  .btn-primary:hover{background:var(--acc);transform:translateY(-3px);box-shadow:0 12px 30px var(--shadow);}
+  .btn-ghost{background:transparent;color:var(--txt);border:1px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--acc);color:var(--acc);transform:translateY(-2px);}
+  .scarcity{font-size:13px;color:var(--acc);font-weight:700;}
+  .scarcity b{color:var(--txt);}
+
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.2,.7,.3,1),transform .8s cubic-bezier(.2,.7,.3,1);}
+  .reveal.show{opacity:1;transform:translateY(0);}
+
+  section{padding:90px 0;border-bottom:1px solid var(--line);}
+  .sec-head{margin-bottom:56px;}
+  .label{font-size:12px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:16px;}
+  h2{font-size:clamp(26px,4.5vw,44px);font-weight:800;letter-spacing:-1.5px;line-height:1.1;}
+  h2 em{font-style:normal;background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+
+  /* ===== КРАСИВЫЙ ЗАГОЛОВОК ДЛЯ НОУТБУКА ===== */
+  .laptop-title{
+    font-size:clamp(34px,6vw,64px) !important;
+    font-weight:800;
+    letter-spacing:-2px;
+    line-height:1.05;
+    margin-bottom:12px;
+    background:linear-gradient(90deg,var(--acc),var(--acc2),var(--acc),var(--acc2));
+    background-size:300% 100%;
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:titleFlow 6s linear infinite;
+    display:inline-block;
+  }
+  .laptop-title em{
+    -webkit-text-fill-color:transparent !important;
+    background:none;
+    font-style:normal;
+    font-weight:900;
+  }
+  @keyframes titleFlow{
+    0%{background-position:0% 50%;}
+    100%{background-position:300% 50%;}
+  }
+  .laptop-title::after{
+    content:"";
+    display:block;
+    width:80px;height:4px;
+    margin-top:18px;
+    border-radius:100px;
+    background:linear-gradient(90deg,var(--acc),var(--acc2));
+    animation:underlineGrow 1s cubic-bezier(.2,.7,.3,1) .3s both;
+  }
+  @keyframes underlineGrow{
+    from{width:0;opacity:0;}
+    to{width:80px;opacity:1;}
+  }
+
+  /* ===== НОУТБУК С РАСКРЫВАЮЩИМСЯ ЭКРАНОМ ===== */
+  .laptop-stage{
+    display:flex;flex-direction:column;align-items:center;
+    perspective:1400px;
+    padding:40px 20px 20px;
+  }
+  .laptop{
+    width:min(760px,100%);
+    transform-style:preserve-3d;
+    position:relative;
+  }
+  .laptop-lid{
+    background:#0f2540;
+    border-radius:18px 18px 4px 4px;
+    padding:18px 18px 22px;
+    box-shadow:0 40px 80px rgba(15,37,64,.25);
+    transform-origin:bottom center;
+    transform:rotateX(-85deg);
+    transition:transform 1.6s cubic-bezier(.2,.9,.3,1.2);
+    position:relative;
+  }
+  .laptop.open .laptop-lid{transform:rotateX(0deg);}
+  .laptop-screen{
+    background:linear-gradient(160deg,#f5f9ff 0%,#e8f1ff 60%,#dbe9ff 100%);
+    border-radius:10px;
+    aspect-ratio:16/10;
+    padding:clamp(16px,3vw,32px);
+    display:flex;flex-direction:column;justify-content:center;
+    overflow:hidden;position:relative;
+  }
+  .laptop-screen::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:28px;
+    background:#0f2540;border-radius:10px 10px 0 0;
+    background-image:radial-gradient(circle at 16px 14px, #ff5f57 5px, transparent 6px),
+                     radial-gradient(circle at 34px 14px, #febc2e 5px, transparent 6px),
+                     radial-gradient(circle at 52px 14px, #28c840 5px, transparent 6px);
+    background-repeat:no-repeat;
+  }
+  .laptop-screen .scr-content{
+    margin-top:24px;
+    font-family:monospace;
+    font-size:clamp(11px,1.4vw,14px);
+    color:var(--txt);
+    line-height:1.7;
+  }
+  .scr-content .line{opacity:0;animation:typeIn .5s forwards;}
+  .laptop.open .scr-content .line{animation:typeIn .5s forwards;}
+  .scr-content .line:nth-child(1){animation-delay:.6s;}
+  .scr-content .line:nth-child(2){animation-delay:1.1s;}
+  .scr-content .line:nth-child(3){animation-delay:1.6s;}
+  .scr-content .line:nth-child(4){animation-delay:2.1s;}
+  .scr-content .line:nth-child(5){animation-delay:2.6s;}
+  .scr-content .line:nth-child(6){animation-delay:3.1s;}
+  @keyframes typeIn{from{opacity:0;transform:translateX(-8px);}to{opacity:1;transform:translateX(0);}}
+  .scr-content .k{color:var(--acc);font-weight:700;}
+  .scr-content .g{color:#22a06b;}
+  .scr-content .blink{
+    display:inline-block;width:8px;height:14px;
+    background:var(--acc);vertical-align:middle;
+    animation:blink 1s steps(2) infinite;
+  }
+  @keyframes blink{0%,50%{opacity:1;}51%,100%{opacity:0;}}
+  .laptop-base{
+    height:14px;
+    background:linear-gradient(180deg,#1e3a5f,#0f2540);
+    border-radius:0 0 16px 16px;
+    width:calc(100% + 60px);
+    margin-left:-30px;
+    box-shadow:0 8px 20px rgba(15,37,64,.3);
+    position:relative;
+  }
+  .laptop-base::before{
+    content:"";position:absolute;top:-2px;left:50%;transform:translateX(-50%);
+    width:80px;height:6px;border-radius:0 0 6px 6px;
+    background:#0a1c30;
+  }
+
+  .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
+  .fact{background:var(--panel);border:1px solid var(--line);padding:32px 26px;border-radius:20px;box-shadow:0 20px 60px var(--shadow);transition:.3s;}
+  .fact:hover{transform:translateY(-6px);box-shadow:0 30px 80px var(--shadow);}
+  .fact .fnum{font-size:40px;font-weight:800;letter-spacing:-2px;background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:12px;}
+  .fact .ftxt{font-size:15px;color:var(--dim);}
+
+  .included{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-radius:20px;overflow:hidden;box-shadow:0 20px 60px var(--shadow);}
+  .inc{background:var(--panel);padding:34px 28px;transition:.25s;}
+  .inc:hover{background:var(--light);}
+  .inc .ico{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--acc),var(--acc2));display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:18px;}
+  .inc h4{font-size:17px;font-weight:800;margin-bottom:10px;}
+  .inc p{font-size:14px;color:var(--dim);}
+
+  .forwhom{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+  .whom{background:var(--panel);border:1px solid var(--line);padding:32px 28px;border-radius:20px;box-shadow:0 20px 60px var(--shadow);transition:.3s;position:relative;overflow:hidden;}
+  .whom:hover{transform:translateY(-6px);box-shadow:0 30px 80px var(--shadow);}
+  .whom::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,var(--acc),var(--acc2));}
+  .whom .emoji{font-size:32px;margin-bottom:16px;}
+  .whom h4{font-size:17px;font-weight:800;margin-bottom:10px;}
+  .whom p{font-size:14px;color:var(--dim);}
+
+  .timeline{position:relative;padding-left:40px;}
+  .timeline::before{content:"";position:absolute;left:11px;top:8px;bottom:8px;width:2px;background:linear-gradient(180deg,var(--acc),var(--acc2));}
+  .tl-item{position:relative;padding:0 0 40px 24px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{content:"";position:absolute;left:-34px;top:6px;width:16px;height:16px;border-radius:50%;background:linear-gradient(135deg,var(--acc),var(--acc2));box-shadow:0 0 0 4px var(--bg),0 0 0 6px var(--line);}
+  .tl-item h4{font-size:18px;font-weight:800;margin-bottom:8px;letter-spacing:-.3px;}
+  .tl-item p{font-size:15px;color:var(--dim);}
+  .tl-item .tl-day{font-size:11px;letter-spacing:2px;color:var(--acc);text-transform:uppercase;font-weight:700;margin-bottom:6px;display:block;}
+
+  .case{background:var(--panel);border:1px solid var(--line);padding:40px;border-radius:20px;box-shadow:0 20px 60px var(--shadow);}
+  .case-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:28px;}
+  .case-head span{font-size:12px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;}
+  .case-head b{color:var(--acc);font-size:12px;letter-spacing:2px;}
+  .bubble{display:flex;gap:16px;margin-bottom:28px;}
+  .avatar{width:48px;height:48px;flex-shrink:0;background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;}
+  .bubble .txt{background:var(--light);padding:18px 20px;border-left:3px solid var(--acc);font-size:16px;border-radius:0 14px 14px 0;}
+  .bubble .txt small{display:block;color:var(--dim);font-size:12px;margin-bottom:8px;}
+  .answers{display:grid;gap:10px;margin-top:20px;}
+  .answers button{background:#fff;border:1px solid var(--line);color:var(--txt);padding:18px 20px;text-align:left;font-size:15px;cursor:pointer;transition:.25s;font-family:inherit;border-radius:12px;}
+  .answers button:hover{border-color:var(--acc);background:var(--light);transform:translateX(6px);}
+  .answers button.correct{border-color:var(--acc);background:rgba(30,111,255,.08);font-weight:600;}
+  .answers button.wrong{border-color:#ff5577;background:rgba(255,85,119,.06);}
+  .verdict{margin-top:20px;padding:18px;font-size:15px;border-left:3px solid var(--acc);display:none;background:var(--light);border-radius:0 12px 12px 0;}
+
+  .module{display:grid;grid-template-columns:80px 1fr;gap:32px;padding:40px 0;border-bottom:1px solid var(--line);cursor:pointer;transition:.3s;}
+  .module:last-child{border-bottom:none;}
+  .module:hover{background:rgba(232,241,255,.4);padding-left:16px;}
+  .module .idx{font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-2px;color:var(--line);line-height:1;transition:.3s;}
+  .module:hover .idx,.module.open .idx{background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;transform:scale(1.1);}
+  .module h3{font-size:clamp(20px,2.6vw,26px);font-weight:800;letter-spacing:-.7px;margin-bottom:14px;}
+  .module p{font-size:16px;color:var(--dim);margin-bottom:16px;max-width:760px;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+  .chips span{font-size:12px;padding:6px 14px;border:1px solid var(--line);color:var(--dim);border-radius:100px;background:#fff;transition:.2s;}
+  .module:hover .chips span{border-color:var(--acc);color:var(--acc);}
+  .more{max-height:0;overflow:hidden;opacity:0;transition:.5s ease;font-size:15px;color:var(--dim);border-left:3px solid var(--acc);padding-left:18px;}
+  .module.open .more{max-height:900px;opacity:1;margin-top:8px;}
+  .more b{color:var(--txt);}
+  .more ul{margin:10px 0 14px 0;padding-left:18px;}
+  .more li{margin-bottom:8px;line-height:1.55;}
+  .more li::marker{color:var(--acc);}
+  .hint{font-size:12px;color:var(--acc);letter-spacing:1px;margin-top:16px;text-transform:uppercase;font-weight:700;}
+
+  .guarantee{background:linear-gradient(135deg,var(--light),var(--panel));border:1px solid var(--line);padding:48px;border-radius:24px;display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;box-shadow:0 20px 60px var(--shadow);}
+  .guarantee .gico{font-size:64px;line-height:1;}
+  .guarantee h3{font-size:24px;font-weight:800;margin-bottom:12px;letter-spacing:-.5px;}
+  .guarantee p{font-size:15px;color:var(--dim);}
+
+  .result{background:var(--panel);border:1px solid var(--line);padding:48px;border-left:4px solid var(--acc);border-radius:0 20px 20px 0;box-shadow:0 20px 60px var(--shadow);}
+  .result p{font-size:18px;color:var(--dim);margin-bottom:16px;}
+  .result p:last-child{margin-bottom:0;}
+  .result b{color:var(--txt);}
+  .result .hi{font-weight:800;background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+
+  .spots{background:var(--panel);border:1px solid var(--line);padding:44px;border-radius:20px;box-shadow:0 20px 60px var(--shadow);}
+  .spots-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:12px;margin-bottom:22px;}
+  .spots-head h3{font-size:22px;font-weight:800;letter-spacing:-.5px;}
+  .spots-head .cnt{font-size:14px;color:var(--acc2);font-weight:700;letter-spacing:1px;}
+  .bar{height:10px;background:var(--light);position:relative;overflow:hidden;border-radius:100px;}
+  .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width 1.2s ease;border-radius:100px;position:relative;}
+  .bar i::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);animation:shine 2s infinite;}
+  @keyframes shine{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
+  .spots-note{margin-top:18px;font-size:14px;color:var(--dim);}
+  .spots-note b{color:var(--acc);}
+
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-radius:20px;overflow:hidden;margin-top:40px;}
+  .stat{background:var(--panel);padding:36px 24px;text-align:center;transition:.3s;}
+  .stat:hover{background:var(--light);transform:scale(1.03);}
+  .stat .num{font-size:clamp(32px,5vw,52px);font-weight:800;letter-spacing:-2px;background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:10px;}
+  .stat .cap{font-size:13px;color:var(--dim);letter-spacing:1px;text-transform:uppercase;}
+
+  .pricing{display:grid;grid-template-columns:1.4fr 1fr;gap:32px;align-items:stretch;}
+  .price-card{background:var(--panel);border:1px solid var(--line);padding:48px;border-radius:24px;box-shadow:0 30px 80px var(--shadow);position:relative;overflow:hidden;}
+  .price-card::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--acc),var(--acc2));}
+  .price-card .amount{font-size:clamp(44px,7vw,80px);font-weight:800;letter-spacing:-3px;line-height:1;background:linear-gradient(135deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;}
+  .price-card .amount em{color:var(--dim);-webkit-text-fill-color:var(--dim);font-style:normal;font-size:16px;font-weight:400;letter-spacing:0;}
+  .old{color:var(--dim);text-decoration:line-through;font-size:18px;margin-right:12px;}
+  .price-note{color:var(--dim);font-size:15px;margin-top:10px;max-width:420px;}
+  .price-feats{list-style:none;margin:28px 0;}
+  .price-feats li{font-size:15px;padding:10px 0;border-bottom:1px solid var(--line);color:var(--dim);transition:.2s;}
+  .price-feats li:hover{padding-left:8px;color:var(--txt);}
+  .price-feats li::before{content:"→ ";color:var(--acc);font-weight:800;}
+  .price-feats li:last-child{border-bottom:none;}
+  .cta{display:block;text-align:center;background:var(--txt);color:#fff;padding:22px 36px;font-size:15px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:.25s;font-family:inherit;text-decoration:none;border-radius:100px;}
+  .cta:hover{background:var(--acc);transform:translateY(-3px);box-shadow:0 14px 32px var(--shadow);}
+  .cta-side{background:var(--light);border:1px solid var(--line);padding:48px;border-radius:24px;display:flex;flex-direction:column;justify-content:center;transition:.3s;}
+  .cta-side:hover{transform:translateY(-4px);box-shadow:0 20px 50px var(--shadow);}
+  .cta-side h4{font-size:20px;font-weight:800;margin-bottom:14px;}
+  .cta-side p{font-size:14px;color:var(--dim);margin-bottom:20px;}
+  .cta-side a{color:var(--acc);text-decoration:none;font-weight:700;font-size:15px;}
+  .cta-side a:hover{text-decoration:underline;}
+
+  .faq-item{border-bottom:1px solid var(--line);padding:24px 0;transition:.2s;}
+  .faq-item:hover{padding-left:10px;}
+  .faq-item:last-child{border-bottom:none;}
+  .faq-q{font-size:17px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;}
+  .faq-q .plus{color:var(--acc);font-size:22px;font-weight:400;transition:.3s;flex-shrink:0;}
+  .faq-item.open .plus{transform:rotate(45deg) scale(1.2);}
+  .faq-a{max-height:0;overflow:hidden;opacity:0;transition:.4s ease;color:var(--dim);font-size:15px;line-height:1.75;}
+  .faq-item.open .faq-a{max-height:800px;opacity:1;margin-top:14px;}
+  .faq-a b{color:var(--txt);}
+
+  .final-cta{text-align:center;padding:90px 0;}
+  .final-cta h2{margin-bottom:22px;font-size:clamp(28px,5vw,52px);}
+  .final-cta p{color:var(--dim);font-size:17px;max-width:600px;margin:0 auto 36px;}
+
+  footer{padding:44px 0;text-align:center;color:var(--dim);font-size:12px;letter-spacing:1px;border-top:1px solid var(--line);}
+
+  @media(max-width:900px){
+    .included{grid-template-columns:repeat(2,1fr);}
+  }
+  @media(max-width:800px){
+    .pricing{grid-template-columns:1fr;}
+    .module{grid-template-columns:1fr;gap:12px;}
+    .stats{grid-template-columns:1fr;}
+    .guarantee{grid-template-columns:1fr;text-align:center;padding:32px 22px;}
+  }
+  @media(max-width:640px){
+    .included{grid-template-columns:1fr;}
+    .cta{width:100%;}
+    h1{letter-spacing:-1.5px;}
+    .hero{padding:64px 0 48px;}
+    section{padding:60px 0;}
+    .result,.spots,.case,.price-card,.cta-side{padding:28px 22px;}
+    .lang button{padding:6px 10px;font-size:11px;}
+    .laptop-base{width:calc(100% + 30px);margin-left:-15px;}
+    .laptop-screen::before{background-image:radial-gradient(circle at 12px 12px, #ff5f57 4px, transparent 5px),radial-gradient(circle at 26px 12px, #febc2e 4px, transparent 5px),radial-gradient(circle at 40px 12px, #28c840 4px, transparent 5px);}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<header>
+  <div class="wrap">
+    <div class="logo"><span class="mark"></span> New mental era</div>
+    <div class="nav-right">
+      <div class="status"><span class="dot"></span> <span data-i18n="status">Набор 1-го потока</span></div>
+      <div class="lang" id="lang">
+        <button data-lang="ru"><span class="flag">🇷🇺</span> RU</button>
+        <button data-lang="en"><span class="flag">🇬🇧</span> EN</button>
+        <button data-lang="zh"><span class="flag">🇨🇳</span> 中文</button>
+      </div>
+      <a class="btn-top" href="https://t.me/Ceo_mind0" target="_blank" rel="noopener" data-i18n="header_cta">Занять место</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="wrap" style="padding:0;">
+      <h1 class="reveal" data-i18n="h1_html">Это не банальные советы<br>в духе <em>«просто будь счастлив»</em></h1>
+      <p class="sub reveal" data-i18n="sub_html">Разбор самых частых проблем, с которыми сталкивается почти каждый, — и <b>конкретные решения к каждой</b>. Не теория, а навык.</p>
+      <div class="hero-cta reveal">
+        <a class="btn btn-primary" href="#price" id="heroCta1">Забронировать за 499 ₽</a>
+        <a class="btn btn-ghost" href="#case" data-i18n="hero_cta2">Пройти тест-кейс</a>
+        <span class="scarcity" data-i18n="scarcity_html">⚡ Осталось <b>4 места</b></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- НОУТБУК -->
+  <section>
+    <div class="sec-head reveal">
+      <div class="label" data-i18n="laptop_label">Так это выглядит изнутри</div>
+      <h2 class="laptop-title" data-i18n="laptop_h2_html">Изучи <em>свой курс</em></h2>
+    </div>
+    <div class="laptop-stage reveal" id="laptopStage">
+      <div class="laptop" id="laptop">
+        <div class="laptop-lid">
+          <div class="laptop-screen">
+            <div class="scr-content">
+              <div class="line"><span class="k">$</span> new-mental-era --start</div>
+              <div class="line"><span class="g">✓</span> Загрузка программы... OK</div>
+              <div class="line"><span class="g">✓</span> Модуль 1: Тревожность и неуверенность</div>
+              <div class="line"><span class="g">✓</span> Модуль 2: Личные границы</div>
+              <div class="line"><span class="g">✓</span> Модуль 3: Почему это работает</div>
+              <div class="line"><span class="k">$</span> Готово. Ждём тебя на первом занятии <span class="blink"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="laptop-base"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head reveal">
+      <div class="label" data-i18n="facts_label">Почему это работает</div>
+      <h2 data-i18n="facts_h2_html">Цифры, а не <em>обещания</em></h2>
+    </div>
+    <div class="facts reveal">
+      <div class="fact"><div class="fnum">21</div><div class="ftxt" data-i18n="fact1">день до первых заметных изменений</div></div>
+      <div class="fact"><div class="fnum">15м</div><div class="ftxt" data-i18n="fact2">в день достаточно для практики</div></div>
+      <div class="fact"><div class="fnum">4</div><div class="ftxt" data-i18n="fact3">недели живой работы без лекций</div></div>
+      <div class="fact"><div class="fnum">100%</div><div class="ftxt" data-i18n="fact4">персональный разбор от куратора</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head reveal">
+      <div class="label" data-i18n="whom_label">Кому подойдёт</div>
+      <h2 data-i18n="whom_h2_html">Если ты <em>узнаёшь себя</em> — это для тебя</h2>
+    </div>
+    <div class="forwhom reveal">
+      <div class="whom"><div class="emoji">😰</div><h4 data-i18n="wh1_h">Тревожный и прокручивающий</h4><p data-i18n="wh1_p">Постоянно прокручиваешь мысли, боишься ошибиться, живёшь в напряжении.</p></div>
+      <div class="whom"><div class="emoji">🚪</div><h4 data-i18n="wh2_h">Не умеешь говорить «нет»</h4><p data-i18n="wh2_p">Соглашаешься на всё из чувства вины, потом злишься на себя.</p></div>
+      <div class="whom"><div class="emoji">🔥</div><h4 data-i18n="wh3_h">На грани выгорания</h4><p data-i18n="wh3_p">Работаешь на износ, нет сил, всё раздражает, ничего не радует.</p></div>
+      <div class="whom"><div class="emoji">💭</div><h4 data-i18n="wh4_h">Хочешь больше уверенности</h4><p data-i18n="wh4_p">Устал бояться выступать, знакомиться, отстаивать свою позицию.</p></div>
+      <div class="whom"><div class="emoji">🌱</div><h4 data-i18n="wh5_h">Готов работать над собой</h4><p data-i18n="wh5_p">Не ищешь «таблетку», а готов делать 15 минут в день — реально.</p></div>
+      <div class="whom"><div class="emoji">🎯</div><h4 data-i18n="wh6_h">Нужны конкретные инструменты</h4><p data-i18n="wh6_p">Не философия, а техники, которые применишь уже сегодня.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head reveal">
+      <div class="label" data-i18n="inc_label">Что входит в курс</div>
+      <h2 data-i18n="inc_h2_html">Всё, чтобы <em>реально изменилось</em></h2>
+    </div>
+    <div class="included reveal">
+      <div class="inc"><div class="ico">🧠</div><h4 data-i18n="inc1_h">3 модуля практики</h4><p data-i18n="inc1_p">Тревога, границы, устойчивость — по шагам.</p></div>
+      <div class="inc"><div class="ico">💬</div><h4 data-i18n="inc2_h">Разбор куратора</h4><p data-i18n="inc2_p">Обратная связь по твоим ситуациям, а не шаблоны.</p></div>
+      <div class="inc"><div class="ico">📓</div><h4 data-i18n="inc3_h">Дневники и чек-листы</h4><p data-i18n="inc3_p">Триггеры, прогресс, точки роста — всё в одном месте.</p></div>
+      <div class="inc"><div class="ico">🔒</div><h4 data-i18n="inc4_h">Закрытый чат</h4><p data-i18n="inc4_p">Люди, которые проходят то же самое. Ты не один.</p></div>
+      <div class="inc"><div class="ico">🎧</div><h4 data-i18n="inc5_h">Аудио-практики</h4><p data-i18n="inc5_p">Дыхание, заземление — слушаешь и делаешь.</p></div>
+      <div class="inc"><div class="ico">📈</div><h4 data-i18n="inc6_h">Личный план</h4><p data-i18n="inc6_p">Что делать после курса, чтобы не скатиться назад.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head reveal">
+      <div class="label" data-i18n="how_label">Как это работает</div>
+      <h2 data-i18n="how_h2_html">Твой путь <em>за 4 недели</em></h2>
+    </div>
+    <div class="timeline reveal">
+      <div class="tl-item">
+        <span class="tl-day" data-i18n="how1_d">День 1–3</span>
+        <h4 data-i18n="how1_h">Диагностика и настройка</h4>
+        <p data-i18n="how1_p">Определяем твои главные триггеры. Получаешь личный дневник и первую практику.</p>
+      </div>
+      <div class="tl-item">
+        <span class="tl-day" data-i18n="how2_d">День 4–10</span>
+        <h4 data-i18n="how2_h">Тело и тревога</h4>
+        <p data-i18n="how2_p">Дыхание, заземление, работа с паникой. Учишься возвращаться в себя за 90 секунд.</p>
+      </div>
+      <div class="tl-item">
+        <span class="tl-day" data-i18n="how3_d">День 11–18</span>
+        <h4 data-i18n="how3_h">Границы и общение</h4>
+        <p data-i18n="how3_p">Скрипты «нет», отказ без вины, разбор токсичных паттернов на реальных примерах.</p>
+      </div>
+      <div class="tl-item">
+        <span class="tl-day" data-i18n="how4_d">День 19–25</span>
+        <h4 data-i18n="how4_h">Устойчивость под давлением</h4>
+        <p data-i18n="how4_p">Конфликты, критика, чужое недовольство — учишься держать позицию и не разрушаться.</p>
+      </div>
+      <div class="tl-item">
+        <span class="tl-day" data-i18n="how5_d">День 26–28</span>
+        <h4 data-i18n="how5_h">Закрепление и план</h4>
+        <p data-i18n="how5_p">Разбираем твои кейсы, фиксируем результат, составляем план на 3 месяца вперёд.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="case">
+    <div class="sec-head reveal">
+      <div class="label" data-i18n="case_label">CASE // Проверь себя за 30 секунд</div>
+      <h2 data-i18n="case_h2_html">Стресс-сценарий <em>из реальной жизни</em></h2>
+    </div>
+    <div class="case reveal">
+      <div class="case-head">
+        <span id="caseTime">Внутренний диалог • 02:14 ночи</span>
+        <b id="caseTag">Тревожный сценарий</b>
+      </div>
+      <div class="bubble">
+        <div class="avatar" id="caseAvatar">Я</div>
+        <div class="txt">
+          <small id="caseSmall">Мысли по кругу • тревога накрывает</small>
+          <span id="caseQuote">«Я опять всё испортил. Я недостаточно хорош. Все это видят. Завтра будет только хуже».</span>
+        </div>
+      </div>
+      <p style="font-size:15px;color:var(--dim);" id="caseQuestion">Как реагируешь?</p>
+      <div class="answers" id="answers"></div>
+      <div class="verdict" id="verdict"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head reveal">
+      <div class="label" data-i18n="mod_label">Что внутри программы</div>
+      <h2 data-i18n="mod_h2_html">Три модуля — <em>три навыка</em></h2>
+    </div>
+
+    <div class="module reveal" onclick="this.classList.toggle('open')">
+      <div class="idx">01</div>
+      <div>
+        <h3 data-i18n="m1_h3">Тревожность и неуверенность</h3>
+        <p data-i18n="m1_p">Вечное «я в себе не уверен» — знакомо? Ты учишься оставаться спокойным и уверенным даже в самых стрессовых ситуациях.</p>
+        <div class="chips"><span data-i18n="m1_c1">Работа с тревогой</span><span data-i18n="m1_c2">Уверенность в стрессе</span></div>
+        <div class="more" data-i18n="m1_more_html"></div>
+        <div class="hint" data-i18n="hint">▸ нажми, чтобы раскрыть</div>
+      </div>
+    </div>
+
+    <div class="module reveal" onclick="this.classList.toggle('open')">
+      <div class="idx">02</div>
+      <div>
+        <h3 data-i18n="m2_h3">Личные границы</h3>
+        <p data-i18n="m2_p">Как находить друзей, с которыми реально есть о чём поговорить. И как мягко, но твёрдо отодвинуть от себя ненужных людей.</p>
+        <div class="chips"><span data-i18n="m2_c1">Границы без вины</span><span data-i18n="m2_c2">Окружение</span></div>
+        <div class="more" data-i18n="m2_more_html"></div>
+        <div class="hint" data-i18n="hint">▸ нажми, чтобы раскрыть</div>
+      </div>
+    </div>
+
+    <div class="module reveal" onclick="this.classList.toggle('open')">
+      <div class="idx">03</div>
+      <div>
+        <h3 data-i18n="m3_h3">Почему это работает</h3>
+        <p data-i18n="m3_p">Делаешь задания, получаешь обратную связь от экспертов и меняешь привычки шаг за шагом. Прогресс виден через 2–3 недели.</p>
+        <div class="chips"><span data-i18n="m3_c1">Практика</span><span data-i18n="m3_c2">Обратная связь</span><span data-i18n="m3_c3">Прогресс за 2–3 недели</span></div>
+        <div class="more" data-i18n="m3_more_html"></div>
+        <div class="hint" data-i18n="hint">▸ нажми, чтобы раскрыть</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head reveal">
+      <div class="label" data-i18n="guar_label">Гарантия</div>
+      <h2 data-i18n="guar_h2_html">Честно и <em>без рисков</em></h2>
+    </div>
+    <div class="guarantee reveal">
+      <div class="gico">🛡️</div>
+      <div>
+        <h3 data-i18n="guar_h3">Возврат после первой недели — без вопросов</h3>
+        <p data-i18n="guar_p">Если после первой недели ты поймёшь, что это не твоё — напиши, и я верну деньги. Мне важен результат, а не удержание любой ценой.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head reveal">
+      <div class="label" data-i18n="res_label">04 // Итог</div>
+      <h2 data-i18n="res_h2_html">Компас, <em>а не таблетка</em></h2>
+    </div>
+    <div class="result reveal">
+      <p data-i18n="res_p1_html">Наши курсы — это <b>не волшебная таблетка</b>.</p>
+      <p data-i18n="res_p2_html">Это <span class="hi">компас, который показывает направление</span>.</p>
+      <p data-i18n="res_p3">А дойти — ты сможешь сам. И это самое ценное.</p>
+    </div>
+
+    <div class="stats reveal">
+      <div class="stat"><div class="num" data-count="20">0</div><div class="cap" data-i18n="stat1">мест в потоке</div></div>
+      <div class="stat"><div class="num" id="statPrice">0</div><div class="cap" data-i18n="stat2">за весь поток</div></div>
+      <div class="stat"><div class="num" id="statDays">0</div><div class="cap" data-i18n="stat3">до первых изменений</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head reveal">
+      <div class="label" data-i18n="spots_label">Первый тестовый запуск</div>
+      <h2 data-i18n="spots_h2_html">Осталось <em>мало мест</em></h2>
+    </div>
+    <div class="spots reveal">
+      <div class="spots-head">
+        <h3 data-i18n="spots_h3">Запись на тестовый поток</h3>
+        <div class="cnt" id="spotsCount">осталось 4 из 20</div>
+      </div>
+      <div class="bar"><i id="spotsBar" style="width:80%"></i></div>
+      <div class="spots-note" data-i18n="spots_note_html">Группа набирается вручную, чтобы каждый получил <b>персональную обратную связь</b>. Как только места закончатся — набор закроется.</div>
+    </div>
+  </section>
+
+  <section id="price">
+    <div class="sec-head reveal">
+      <div class="label" data-i18n="price_label">ПЕРВЫЙ СОСТАВ • 20 МЕСТ</div>
+      <h2 data-i18n="price_h2_html">Забронировать <em>участие</em></h2>
+    </div>
+    <div class="pricing">
+      <div class="price-card reveal">
+        <div class="amount"><span class="old" id="oldPrice">2 500 ₽</span><span id="newPrice">499 ₽</span> <em data-i18n="price_em">/ тестовый поток</em></div>
+        <div class="price-note" data-i18n="price_note">Цена по себестоимости — чтобы набрать первый поток и собрать сильные кейсы. Дальше будет дороже.</div>
+        <ul class="price-feats">
+          <li data-i18n="f1">3 модуля живой практики</li>
+          <li data-i18n="f2">Разбор от куратора в чате</li>
+          <li data-i18n="f3">Ежедневные короткие задания</li>
+          <li data-i18n="f4">Поддержка в закрытом Telegram-канале</li>
+          <li data-i18n="f5">Прогресс виден через 2–3 недели</li>
+        </ul>
+        <a class="cta" href="https://t.me/Ceo_mind0" target="_blank" rel="noopener" id="priceCta">Занять место за 499 ₽</a>
+      </div>
+      <div class="cta-side reveal">
+        <h4 data-i18n="side_h4">Остались вопросы?</h4>
+        <p data-i18n="side_p">Напиши лично — отвечу в течение 15 минут. Никаких ботов и автоворонок.</p>
+        <a href="https://t.me/Ceo_mind0" target="_blank" rel="noopener">@Ceo_mind0 →</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head reveal">
+      <div class="label">FAQ</div>
+      <h2 data-i18n="faq_h2_html">Частые <em>вопросы</em></h2>
+    </div>
+    <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+      <div class="faq-q"><span data-i18n="q1"></span> <span class="plus">+</span></div>
+      <div class="faq-a" data-i18n="a1"></div>
+    </div>
+    <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+      <div class="faq-q"><span data-i18n="q2"></span> <span class="plus">+</span></div>
+      <div class="faq-a" data-i18n="a2"></div>
+    </div>
+    <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+      <div class="faq-q"><span data-i18n="q3"></span> <span class="plus">+</span></div>
+      <div class="faq-a" data-i18n="a3"></div>
+    </div>
+    <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+      <div class="faq-q"><span data-i18n="q4"></span> <span class="plus">+</span></div>
+      <div class="faq-a" data-i18n="a4"></div>
+    </div>
+    <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+      <div class="faq-q"><span data-i18n="q5"></span> <span class="plus">+</span></div>
+      <div class="faq-a" data-i18n="a5"></div>
+    </div>
+    <div class="faq-item reveal" onclick="this.classList.toggle('open')">
+      <div class="faq-q"><span data-i18n="q6"></span> <span class="plus">+</span></div>
+      <div class="faq-a" data-i18n="a6"></div>
+    </div>
+  </section>
+
+  <div class="final-cta reveal">
+    <h2 data-i18n="final_h2_html">Готов начать курс <em>New mental era</em> за 499 ₽?</h2>
+    <p data-i18n="final_p">Первый поток — только 20 мест по себестоимости. Дальше цена вырастет.</p>
+    <a class="btn btn-primary" href="https://t.me/Ceo_mind0" target="_blank" rel="noopener" id="finalCta">Начать за 499 ₽</a>
+  </div>
+
+  <footer>
+    <span data-i18n="footer">New mental era • Прогресс начинается с первого шага</span>
+  </footer>
+
+</div>
+
+<script>
+  var CURRENCY = {
+    ru: { new:"499 ₽", old:"2 500 ₽", statEnd:499, statSuffix:" ₽", days:" день",
+          ctaHero:"Забронировать за 499 ₽", ctaPrice:"Занять место за 499 ₽", ctaFinal:"Начать за 499 ₽" },
+    en: { new:"$5.99", old:"$29.99", statEnd:6, statSuffix:" $", days:" days",
+          ctaHero:"Book for $5.99", ctaPrice:"Book a spot for $5.99", ctaFinal:"Start for $5.99" },
+    zh: { new:"¥39", old:"¥199", statEnd:39, statSuffix:" ¥", days:" 天",
+          ctaHero:"以 ¥39 预约", ctaPrice:"以 ¥39 占位", ctaFinal:"以 ¥39 开启" }
+  };
+
+  var I18N = {
+    ru: {
+      status:"Набор 1-го потока", header_cta:"Занять место",
+      h1_html:"Это не банальные советы<br>в духе <em>«просто будь счастлив»</em>",
+      sub_html:"Разбор самых частых проблем, с которыми сталкивается почти каждый, — и <b>конкретные решения к каждой</b>. Не теория, а навык.",
+      hero_cta2:"Пройти тест-кейс",
+      scarcity_html:"⚡ Осталось <b>4 места</b> — всего за 499 ₽",
+
+      laptop_label:"Так это выглядит изнутри",
+      laptop_h2_html:"Изучи <em>свой курс</em>",
+
+      facts_label:"Почему это работает", facts_h2_html:"Цифры, а не <em>обещания</em>",
+      fact1:"день до первых заметных изменений",
+      fact2:"в день достаточно для практики",
+      fact3:"недели живой работы без лекций",
+      fact4:"персональный разбор от куратора",
+
+      whom_label:"Кому подойдёт", whom_h2_html:"Если ты <em>узнаёшь себя</em> — это для тебя",
+      wh1_h:"Тревожный и прокручивающий", wh1_p:"Постоянно прокручиваешь мысли, боишься ошибиться, живёшь в напряжении.",
+      wh2_h:"Не умеешь говорить «нет»", wh2_p:"Соглашаешься на всё из чувства вины, потом злишься на себя.",
+      wh3_h:"На грани выгорания", wh3_p:"Работаешь на износ, нет сил, всё раздражает, ничего не радует.",
+      wh4_h:"Хочешь больше уверенности", wh4_p:"Устал бояться выступать, знакомиться, отстаивать свою позицию.",
+      wh5_h:"Готов работать над собой", wh5_p:"Не ищешь «таблетку», а готов делать 15 минут в день — реально.",
+      wh6_h:"Нужны конкретные инструменты", wh6_p:"Не философия, а техники, которые применишь уже сегодня.",
+
+      inc_label:"Что входит в курс", inc_h2_html:"Всё, чтобы <em>реально изменилось</em>",
+      inc1_h:"3 модуля практики", inc1_p:"Тревога, границы, устойчивость — по шагам.",
+      inc2_h:"Разбор куратора", inc2_p:"Обратная связь по твоим ситуациям, а не шаблоны.",
+      inc3_h:"Дневники и чек-листы", inc3_p:"Триггеры, прогресс, точки роста — всё в одном месте.",
+      inc4_h:"Закрытый чат", inc4_p:"Люди, которые проходят то же самое. Ты не один.",
+      inc5_h:"Аудио-практики", inc5_p:"Дыхание, заземление — слушаешь и делаешь.",
+      inc6_h:"Личный план", inc6_p:"Что делать после курса, чтобы не скатиться назад.",
+
+      how_label:"Как это работает", how_h2_html:"Твой путь <em>за 4 недели</em>",
+      how1_d:"День 1–3", how1_h:"Диагностика и настройка", how1_p:"Определяем твои главные триггеры. Получаешь личный дневник и первую практику.",
+      how2_d:"День 4–10", how2_h:"Тело и тревога", how2_p:"Дыхание, заземление, работа с паникой. Учишься возвращаться в себя за 90 секунд.",
+      how3_d:"День 11–18", how3_h:"Границы и общение", how3_p:"Скрипты «нет», отказ без вины, разбор токсичных паттернов на реальных примерах.",
+      how4_d:"День 19–25", how4_h:"Устойчивость под давлением", how4_p:"Конфликты, критика, чужое недовольство — учишься держать позицию и не разрушаться.",
+      how5_d:"День 26–28", how5_h:"Закрепление и план", how5_p:"Разбираем твои кейсы, фиксируем результат, составляем план на 3 месяца вперёд.",
+
+      case_label:"CASE // Проверь себя за 30 секунд",
+      case_h2_html:"Стресс-сценарий <em>из реальной жизни</em>",
+      case_question:"Как реагируешь?",
+      verdict_ok:"Верно. Ты не воюешь с мыслями, а наблюдаешь их. Это и есть навык, который тренируется в клубе.",
+      verdict_bad:"Слив. Мысли победили тебя за секунду. Именно этот рефлекс и тренируется на курсе.",
+
+      mod_label:"Что внутри программы", mod_h2_html:"Три модуля — <em>три навыка</em>",
+      m1_h3:"Тревожность и неуверенность",
+      m1_p:"Вечное «я в себе не уверен» — знакомо? Ты учишься оставаться спокойным и уверенным даже в самых стрессовых ситуациях.",
+      m1_c1:"Работа с тревогой", m1_c2:"Уверенность в стрессе",
+      m1_more_html:"<b>Что внутри модуля:</b><ul><li><b>Физиология тревоги.</b> Понимаешь, что происходит с телом в момент паники: адреналин, дыхание, пульс.</li><li><b>Дыхание 4-7-8 и квадратное дыхание.</b> Техники, которые снижают тревогу за 90 секунд.</li><li><b>Заземление 5-4-3-2-1.</b> Возвращаешься из мысленной воронки в «здесь и сейчас».</li><li><b>Дневник триггеров.</b> Учишься замечать, что запускает тревогу — и обезвреживать заранее.</li><li><b>Работа с автоматическими мыслями.</b> «Я недостаточно хорош» — раскладываем на факты и интерпретации.</li><li><b>Уверенность как навык.</b> Действовать, даже когда страшно.</li></ul>",
+      m2_h3:"Личные границы",
+      m2_p:"Как находить друзей, с которыми реально есть о чём поговорить. И как мягко, но твёрдо отодвинуть от себя ненужных людей.",
+      m2_c1:"Границы без вины", m2_c2:"Окружение",
+      m2_more_html:"<b>Что внутри модуля:</b><ul><li><b>Что такое границы на самом деле.</b> Не стена, а уважение к себе и другому.</li><li><b>Скрипты «нет» без агрессии.</b> Готовые фразы для сложных ситуаций.</li><li><b>Чувство вины.</b> Почему появляется при отказе и как им не управлять.</li><li><b>Разбор токсичных паттернов.</b> Забота vs манипуляция, просьба vs давление.</li><li><b>Практика отказа.</b> Тренируемся говорить «нет» на реальных примерах.</li><li><b>Круг общения.</b> Кто поддерживает, а кто тянет вниз.</li></ul>",
+      m3_h3:"Почему это работает",
+      m3_p:"Делаешь задания, получаешь обратную связь от экспертов и меняешь привычки шаг за шагом. Прогресс виден через 2–3 недели.",
+      m3_c1:"Практика", m3_c2:"Обратная связь", m3_c3:"Прогресс за 2–3 недели",
+      m3_more_html:"<b>Что внутри модуля:</b><ul><li><b>Ежедневные короткие задания.</b> 5–15 минут в день.</li><li><b>Чек-листы и трекеры.</b> Видишь прогресс наглядно.</li><li><b>Разбор от куратора.</b> Конкретная обратная связь по твоим ситуациям.</li><li><b>Поддержка в закрытом чате.</b> Ты не один.</li><li><b>Принцип «мышечного навыка».</b> Уверенность тренируется как мышца.</li><li><b>Первые результаты за 2–3 недели.</b> Реагируешь спокойнее, отказываешь без вины.</li></ul>",
+      hint:"▸ нажми, чтобы раскрыть",
+
+      guar_label:"Гарантия", guar_h2_html:"Честно и <em>без рисков</em>",
+      guar_h3:"Возврат после первой недели — без вопросов",
+      guar_p:"Если после первой недели ты поймёшь, что это не твоё — напиши, и я верну деньги. Мне важен результат, а не удержание любой ценой.",
+
+      res_label:"04 // Итог", res_h2_html:"Компас, <em>а не таблетка</em>",
+      res_p1_html:"Наши курсы — это <b>не волшебная таблетка</b>.",
+      res_p2_html:"Это <span class=\"hi\">компас, который показывает направление</span>.",
+      res_p3:"А дойти — ты сможешь сам. И это самое ценное.",
+      stat1:"мест в потоке", stat2:"за весь поток", stat3:"до первых изменений",
+
+      spots_label:"Первый тестовый запуск", spots_h2_html:"Осталось <em>мало мест</em>",
+      spots_h3:"Запись на тестовый поток",
+      spots_count:function(s,t){return "осталось "+s+" из "+t;},
+      spots_note_html:"Группа набирается вручную, чтобы каждый получил <b>персональную обратную связь</b>. Как только места закончатся — набор закроется.",
+
+      price_label:"ПЕРВЫЙ СОСТАВ • 20 МЕСТ", price_h2_html:"Забронировать <em>участие</em>",
+      price_em:"/ тестовый поток",
+      price_note:"499 ₽ по себестоимости — чтобы набрать первый поток и собрать сильные кейсы. Дальше будет дороже.",
+      f1:"3 модуля живой практики", f2:"Разбор от куратора в чате", f3:"Ежедневные короткие задания",
+      f4:"Поддержка в закрытом Telegram-канале", f5:"Прогресс виден через 2–3 недели",
+      side_h4:"Остались вопросы?", side_p:"Напиши лично — отвечу в течение 15 минут. Никаких ботов и автоворонок.",
+      faq_h2_html:"Частые <em>вопросы</em>",
+
+      q1:"Сколько длится поток и что конкретно будет за эти 4 недели?",
+      a1:"Четыре недели живой практики, а не лекций. Первая неделя — работа с телом и тревогой: дыхание 4-7-8, заземление 5-4-3-2-1, дневник триггеров. Вторая неделя — границы и общение: скрипты «нет», разбор токсичных паттернов. Третья — устойчивость под давлением: как не сдавать позиции в конфликте. Четвёртая — закрепление: разбираем твои кейсы, фиксируем прогресс, план на будущее. Первые изменения — через 2–3 недели.",
+
+      q2:"Что если мне не понравится формат? Буду ли я «заперт» в курсе?",
+      a2:"Нет, ты не заперт — мы адаптируем программу под тебя. Если не заходит групповой чат — переходим на личный разбор. Если тяжело идти в темпе — снижаем нагрузку. Если хочется больше практики — добавляем спарринги. Я не «продаю курс», а довожу до результата. Если что-то не работает — переделываем.",
+
+      q3:"Как проходит оплата и есть ли реальные гарантии возврата?",
+      a3:"499 ₽ за весь тестовый поток — символический взнос, а не «цена курса». Он нужен, чтобы отсеять случайных людей и собрать мотивированную группу. Оплата — в Telegram, без скрытых доплат и подписок. Гарантия простая: если после первой недели ты поймёшь, что это не твоё — напиши, и я верну деньги без вопросов.",
+
+      q4:"Это терапия или курс? Заменяет ли он психотерапевта?",
+      a4:"Это практический курс по навыкам, а не терапия. Мы не работаем с травмами и не лечим расстройства — этим занимается психотерапевт. Мы тренируем конкретные навыки: справляться с тревогой здесь и сейчас, говорить «нет» без вины, выдерживать давление. Если ты уже в терапии — курс дополнит её. Если нет — получишь инструменты, которые работают самостоятельно.",
+
+      q5:"Кто ведёт курс и почему тебе вообще можно верить?",
+      a5:"Курс ведёт практик, который сам прошёл через это. Программа собрана из методов, которые реально работают: когнитивно-поведенческие техники, работа с телом, скрипты границ, дыхательные практики. Никакой эзотерики, никаких «просто будь счастлив». Я отвечаю лично, без ботов и автоворонок — можешь задать любой вопрос до записи, во время курса и после него.",
+
+      q6:"Как записаться и что произойдёт дальше, шаг за шагом?",
+      a6:"Напиши в Telegram @Ceo_mind0. Отвечу лично в течение 15 минут. Дальше задам несколько вопросов: что беспокоит, чего хочешь достичь, готов ли к 4 неделям работы. Если подходим друг другу — забронирую место за 499 ₽ и пришлю детали: расписание, доступ в закрытый чат, первый материал. Осталось 4 места из 20 — после этого цена будет выше.",
+
+      final_h2_html:"Готов начать курс <em>New mental era</em> за 499 ₽?",
+      final_p:"Первый поток — только 20 мест по 499 ₽. Дальше цена вырастет.",
+      footer:"New mental era • Прогресс начинается с первого шага"
+    },
+    en: {
+      status:"1st cohort · open", header_cta:"Book a spot",
+      h1_html:"Not the usual advice<br>like <em>“just be happy”</em>",
+      sub_html:"A breakdown of the most common problems almost everyone faces — with <b>concrete solutions for each</b>. Not theory, but a skill.",
+      hero_cta2:"Take the test case",
+      scarcity_html:"⚡ Only <b>4 spots</b> — just $5.99",
+
+      laptop_label:"This is how it looks inside",
+      laptop_h2_html:"Explore <em>your course</em>",
+
+      facts_label:"Why it works", facts_h2_html:"Numbers, not <em>promises</em>",
+      fact1:"days to the first noticeable changes",
+      fact2:"a day is enough for practice",
+      fact3:"weeks of live work without lectures",
+      fact4:"personal review from the curator",
+
+      whom_label:"Who it is for", whom_h2_html:"If you <em>recognize yourself</em> — this is for you",
+      wh1_h:"Anxious and overthinking", wh1_p:"You replay thoughts, fear mistakes, live in tension.",
+      wh2_h:"Cannot say no", wh2_p:"You agree to everything out of guilt, then get angry at yourself.",
+      wh3_h:"On the edge of burnout", wh3_p:"Working to exhaustion, no energy, everything irritates.",
+      wh4_h:"Want more confidence", wh4_p:"Tired of fearing to speak, meet people, defend your position.",
+      wh5_h:"Ready to work on yourself", wh5_p:"Not looking for a magic pill — ready to do 15 minutes a day.",
+      wh6_h:"Need concrete tools", wh6_p:"Not philosophy, but techniques you can apply today.",
+
+      inc_label:"What is included", inc_h2_html:"Everything so it <em>really changes</em>",
+      inc1_h:"3 practice modules", inc1_p:"Anxiety, boundaries, resilience — step by step.",
+      inc2_h:"Curator review", inc2_p:"Feedback on your situations, not templates.",
+      inc3_h:"Journals and checklists", inc3_p:"Triggers, progress, growth points — all in one place.",
+      inc4_h:"Private chat", inc4_p:"People going through the same thing. You are not alone.",
+      inc5_h:"Audio practices", inc5_p:"Breathing, grounding — listen and do.",
+      inc6_h:"Personal plan", inc6_p:"What to do after the course so you do not slide back.",
+
+      how_label:"How it works", how_h2_html:"Your path <em>in 4 weeks</em>",
+      how1_d:"Day 1–3", how1_h:"Diagnostics and setup", how1_p:"We identify your main triggers. You get a personal journal and the first practice.",
+      how2_d:"Day 4–10", how2_h:"Body and anxiety", how2_p:"Breathing, grounding, panic work. Learn to come back to yourself in 90 seconds.",
+      how3_d:"Day 11–18", how3_h:"Boundaries and communication", how3_p:"Scripts for saying no, refusal without guilt, toxic patterns on real examples.",
+      how4_d:"Day 19–25", how4_h:"Stability under pressure", how4_p:"Conflicts, criticism, others displeasure — hold your position without collapsing.",
+      how5_d:"Day 26–28", how5_h:"Consolidation and plan", how5_p:"Review your cases, track the result, build a plan for the next 3 months.",
+
+      case_label:"CASE // Test yourself in 30 seconds",
+      case_h2_html:"A stress scenario <em>from real life</em>",
+      case_question:"How do you react?",
+      verdict_ok:"Correct. You observe thoughts instead of fighting them. That is the skill we train.",
+      verdict_bad:"Fail. Thoughts won in a second. That is the reflex we train.",
+
+      mod_label:"What is inside", mod_h2_html:"Three modules — <em>three skills</em>",
+      m1_h3:"Anxiety and self-doubt",
+      m1_p:"Constant “I am not sure about myself” — familiar? You learn to stay calm and confident even in the most stressful situations.",
+      m1_c1:"Working with anxiety", m1_c2:"Confidence under stress",
+      m1_more_html:"<b>Inside the module:</b><ul><li><b>Physiology of anxiety.</b> Understand what happens in your body during panic.</li><li><b>4-7-8 and box breathing.</b> Techniques that cut anxiety in 90 seconds.</li><li><b>Grounding 5-4-3-2-1.</b> Coming back through your senses.</li><li><b>Trigger journal.</b> Notice what launches anxiety and defuse it in advance.</li><li><b>Automatic thoughts.</b> Facts vs interpretations.</li><li><b>Confidence as a skill.</b> Acting even when scared.</li></ul>",
+      m2_h3:"Personal boundaries",
+      m2_p:"How to build boundaries without guilt. How to find friends you can actually talk to.",
+      m2_c1:"Boundaries without guilt", m2_c2:"Your circle",
+      m2_more_html:"<b>Inside the module:</b><ul><li><b>What boundaries really are.</b> Respect, not a wall.</li><li><b>Scripts for saying no.</b> Ready phrases for real situations.</li><li><b>Guilt.</b> Why it shows up, how to stop it driving decisions.</li><li><b>Toxic patterns.</b> Care vs manipulation.</li><li><b>Refusal practice.</b> On real examples.</li><li><b>Your circle.</b> Who supports, who drags down.</li></ul>",
+      m3_h3:"Why it works",
+      m3_p:"You do tasks, get feedback and change habits step by step. Progress shows in 2–3 weeks.",
+      m3_c1:"Practice", m3_c2:"Feedback", m3_c3:"Progress in 2–3 weeks",
+      m3_more_html:"<b>Inside the module:</b><ul><li><b>Short daily tasks.</b> 5–15 minutes a day.</li><li><b>Checklists and trackers.</b> See your progress clearly.</li><li><b>Curator review.</b> Specific feedback on your situations.</li><li><b>Private chat support.</b> People going through the same.</li><li><b>Muscle skill principle.</b> Trained like a muscle.</li><li><b>First results in 2–3 weeks.</b> Reacting calmer, refusing without guilt.</li></ul>",
+      hint:"▸ tap to expand",
+
+      guar_label:"Guarantee", guar_h2_html:"Honest and <em>risk-free</em>",
+      guar_h3:"Refund after the first week — no questions",
+      guar_p:"If after week one you feel it is not for you — write me, and I refund. I care about the result, not about holding someone at any cost.",
+
+      res_label:"04 // Result", res_h2_html:"A compass, <em>not a pill</em>",
+      res_p1_html:"Our courses are <b>not a magic pill</b>.",
+      res_p2_html:"It is <span class=\"hi\">a compass that shows the direction</span>.",
+      res_p3:"And you can walk it yourself. That is the most valuable part.",
+      stat1:"spots in cohort", stat2:"for the whole flow", stat3:"until first changes",
+
+      spots_label:"First test launch", spots_h2_html:"Only <em>a few spots left</em>",
+      spots_h3:"Enrollment for the test cohort",
+      spots_count:function(s,t){return s+" of "+t+" left";},
+      spots_note_html:"The group is curated so everyone gets <b>personal feedback</b>. Once spots are gone, enrollment closes.",
+
+      price_label:"FIRST COHORT • 20 SPOTS", price_h2_html:"Book <em>your spot</em>",
+      price_em:"/ test cohort",
+      price_note:"$5.99 at cost price — to build the first cohort and collect strong cases. It grows later.",
+      f1:"3 live practice modules", f2:"Curator review in chat", f3:"Short daily tasks",
+      f4:"Support in a private Telegram channel", f5:"Progress visible in 2–3 weeks",
+      side_h4:"Still have questions?", side_p:"Message me directly — I reply within 15 minutes. No bots.",
+      faq_h2_html:"Frequent <em>questions</em>",
+
+      q1:"How long is the cohort and what exactly happens in these 4 weeks?",
+      a1:"Four weeks of live practice, not lectures. Week one — body and anxiety: 4-7-8 breathing, grounding 5-4-3-2-1, trigger journal. Week two — boundaries and communication: scripts for saying no, toxic pattern breakdown. Week three — stability under pressure: holding your position in conflict. Week four — consolidation: we review your real cases, track progress, build a personal plan. First noticeable changes — in 2–3 weeks.",
+
+      q2:"What if I do not like the format? Will I be stuck?",
+      a2:"No — we adapt the program to you. If group chat does not work — we switch to one-on-one review. If the pace is tough — we slow down. If you want more practice — we add sparring. I do not sell a course — I bring you to a result. If something does not work — we redo it.",
+
+      q3:"How does payment work and are there real refund guarantees?",
+      a3:"$5.99 for the whole test cohort is a symbolic fee, not the price of a course. It exists to filter out random people and gather a motivated group. All details in Telegram, no hidden fees. Guarantee: if after week one you feel it is not for you — write me, and I refund without questions.",
+
+      q4:"Is this therapy or a course? Does it replace a therapist?",
+      a4:"This is a practical skills course, not therapy. We do not work with trauma or treat disorders — that is a therapist job. We train concrete applied skills: managing anxiety in the moment, saying no without guilt, holding up under pressure. If you are already in therapy — this complements it. If not — you get tools that work standalone.",
+
+      q5:"Who leads the course and why trust you?",
+      a5:"The course is led by a practitioner who went through this himself. The program is built from methods that actually work: CBT techniques, body work, boundary scripts, breathing practices. No esoterics, no just be happy. I answer personally, no bots — ask anything before, during or after the course.",
+
+      q6:"How do I sign up and what happens next?",
+      a6:"Message @Ceo_mind0 on Telegram. I reply personally within 15 minutes. Then I will ask a few questions: what bothers you, what you want to achieve, whether you are ready for 4 weeks of work. If we fit — I reserve a spot for $5.99 and send details: schedule, private chat access, first material. 4 spots left out of 20 — after that the price goes up.",
+
+      final_h2_html:"Ready to start the course <em>New mental era</em> for $5.99?",
+      final_p:"First cohort — only 20 spots at $5.99. Price grows after.",
+      footer:"New mental era • Progress starts with the first step"
+    },
+    zh: {
+      status:"第一期 · 报名开放", header_cta:"占位",
+      h1_html:"不是那些老套的建议<br><em>“开心就好”</em>",
+      sub_html:"拆解几乎每个人都会遇到的常见问题——并为每一个提供<b>具体解决方案</b>。不是理论，而是技能。",
+      hero_cta2:"做个测试",
+      scarcity_html:"⚡ 仅剩 <b>4 个名额</b> — 仅需 ¥39",
+
+      laptop_label:"内部是这样的",
+      laptop_h2_html:"探索<em>你的课程</em>",
+
+      facts_label:"为什么有效", facts_h2_html:"数字，而不是<em>承诺</em>",
+      fact1:"天初见明显变化",
+      fact2:"分钟/天足够练习",
+      fact3:"周纯实战，不讲大课",
+      fact4:"导师一对一点评",
+
+      whom_label:"适合谁", whom_h2_html:"如果你<em>看到了自己</em> — 这就是为你准备的",
+      wh1_h:"焦虑与内耗", wh1_p:"反复想、害怕出错、一直紧绷。",
+      wh2_h:"说不出“不”", wh2_p:"因为内疚什么都答应，然后生自己的气。",
+      wh3_h:"濒临倦怠", wh3_p:"拼命工作、没力气、什么都烦、没有快乐。",
+      wh4_h:"想要更多自信", wh4_p:"厌倦了害怕发言、认识人、争取自己的立场。",
+      wh5_h:"愿意自我成长", wh5_p:"不找灵丹妙药，愿意每天投入 15 分钟。",
+      wh6_h:"需要具体工具", wh6_p:"不是哲学，而是今天就能用的技巧。",
+
+      inc_label:"课程包含", inc_h2_html:"一切，只为<em>真正改变</em>",
+      inc1_h:"3 个实战模块", inc1_p:"焦虑、边界、韧性——一步步来。",
+      inc2_h:"导师点评", inc2_p:"针对你的情况，而不是模板。",
+      inc3_h:"日记与清单", inc3_p:"触发点、进展、成长点——都在一起。",
+      inc4_h:"专属群聊", inc4_p:"和经历相同的人一起。你不是一个人。",
+      inc5_h:"音频练习", inc5_p:"呼吸、接地——听着做就行。",
+      inc6_h:"个人计划", inc6_p:"课程结束后怎么做，避免回退。",
+
+      how_label:"如何运作", how_h2_html:"你<em>4 周</em>的路径",
+      how1_d:"第 1–3 天", how1_h:"诊断与设置", how1_p:"找到你的主要触发点。获得个人日记和第一个练习。",
+      how2_d:"第 4–10 天", how2_h:"身体与焦虑", how2_p:"呼吸、接地、处理恐慌。学会 90 秒回到自己。",
+      how3_d:"第 11–18 天", how3_h:"边界与沟通", how3_p:"拒绝话术、不内疚的拒绝、真实案例中的有毒模式。",
+      how4_d:"第 19–25 天", how4_h:"压力下的稳定", how4_p:"冲突、批评、他人的不满——守住立场不崩溃。",
+      how5_d:"第 26–28 天", how5_h:"巩固与计划", how5_p:"分析案例、记录成果、制定未来 3 个月计划。",
+
+      case_label:"CASE // 30 秒自我测试",
+      case_h2_html:"来自真实生活的<em>压力场景</em>",
+      case_question:"你会怎么反应？",
+      verdict_ok:"正确。你在观察想法而不是对抗。这正是我们训练的技能。",
+      verdict_bad:"失败。想法一秒就赢了你。这正是要训练的反射。",
+
+      mod_label:"课程内容", mod_h2_html:"三个模块 — <em>三种技能</em>",
+      m1_h3:"焦虑与不自信",
+      m1_p:"总觉得“我不确定自己”——熟悉吗？你将学会在最有压力的情况下保持冷静和自信。",
+      m1_c1:"处理焦虑", m1_c2:"压力下的自信",
+      m1_more_html:"<b>模块内容：</b><ul><li><b>焦虑的生理机制。</b>了解恐慌时身体发生了什么。</li><li><b>4-7-8 呼吸与方框呼吸。</b>90 秒内降低焦虑。</li><li><b>5-4-3-2-1 接地法。</b>通过感官回到“此时此地”。</li><li><b>触发日记。</b>发现焦虑来源，提前化解。</li><li><b>自动思维处理。</b>事实与解读的区分。</li><li><b>自信是一项技能。</b>害怕时仍能行动。</li></ul>",
+      m2_h3:"个人边界",
+      m2_p:"如何在不觉内疚的情况下建立边界。如何找到真正聊得来的朋友。",
+      m2_c1:"不内疚的边界", m2_c2:"社交圈",
+      m2_more_html:"<b>模块内容：</b><ul><li><b>边界的真正含义。</b>尊重，不是墙。</li><li><b>“拒绝”话术。</b>真实场景的现成应答。</li><li><b>内疚感。</b>不让它主导决定。</li><li><b>有毒模式拆解。</b>关心 vs 操纵。</li><li><b>拒绝练习。</b>用你生活中的真实例子。</li><li><b>你的圈子。</b>谁支持你，谁拖你后腿。</li></ul>",
+      m3_h3:"为什么有效",
+      m3_p:"你做任务、获得反馈、一步步改变习惯。2–3 周就能看到进展。",
+      m3_c1:"练习", m3_c2:"反馈", m3_c3:"2–3 周见进展",
+      m3_more_html:"<b>模块内容：</b><ul><li><b>每日短任务。</b>每天 5–15 分钟。</li><li><b>清单与追踪表。</b>清楚看到进展。</li><li><b>导师点评。</b>针对你具体情况的反馈。</li><li><b>专属群支持。</b>和经历相同的人在一起。</li><li><b>“肌肉技能”原理。</b>像肌肉一样训练。</li><li><b>2–3 周初见成效。</b>反应更平静、拒绝不内疚。</li></ul>",
+      hint:"▸ 点击展开",
+
+      guar_label:"保障", guar_h2_html:"诚实，<em>零风险</em>",
+      guar_h3:"第一周后无理由退款",
+      guar_p:"如果第一周后你觉得不适合——写给我，我退款。我看重结果，而不是强留任何人。",
+
+      res_label:"04 // 结论", res_h2_html:"指南针，<em>而非药丸</em>",
+      res_p1_html:"我们的课程<b>不是万能药</b>。",
+      res_p2_html:"它是<span class=\"hi\">指方向的指南针</span>。",
+      res_p3:"路要你自己走。这才是最珍贵的。",
+      stat1:"本期名额", stat2:"整期费用", stat3:"初见变化",
+
+      spots_label:"第一期试运营", spots_h2_html:"名额<em>不多了</em>",
+      spots_h3:"报名试运营期",
+      spots_count:function(s,t){return "剩 "+s+" / "+t;},
+      spots_note_html:"小组为人工筛选，确保每个人都能得到<b>个性化反馈</b>。名额用尽即关闭报名。",
+
+      price_label:"首期 • 20 个名额", price_h2_html:"预约<em>名额</em>",
+      price_em:"/ 试运营期",
+      price_note:"¥39 按成本价——用于组建首期并收集优质案例。之后涨价。",
+      f1:"3 个实战模块", f2:"聊天中导师点评", f3:"每日短任务",
+      f4:"专属 Telegram 频道支持", f5:"2–3 周见进展",
+      side_h4:"还有问题？", side_p:"直接私信——15 分钟内回复。没有机器人。",
+      faq_h2_html:"常见<em>问题</em>",
+
+      q1:"一期多长？这 4 周里具体会发生什么？",
+      a1:"四周实战练习，不是讲课。第一周——身体与焦虑：4-7-8 呼吸、5-4-3-2-1 接地、触发日记。第二周——边界与沟通：拒绝话术、有毒模式拆解。第三周——压力下的稳定：冲突中守住立场。第四周——巩固：分析真实案例、记录进展、制定个人计划。2–3 周初见明显变化。",
+
+      q2:"如果不喜欢这个形式？会被困住吗？",
+      a2:"不会——我们会为你调整方案。不适应群聊——改成一对一。进度太赶——放慢节奏。想更多练习——加对练。我不是“卖课程”，而是带你拿到结果。哪里不work就改。",
+
+      q3:"如何付款？有真实的退款保障吗？",
+      a3:"整期 ¥39 是象征性费用，不是“课程价格”。它的存在是为了筛掉随便看看的人，组建一个每个人都在认真投入的团队。付款细节在 Telegram，无隐藏费用。保障简单而诚实：第一周后若觉得不适合——写给我，无理由退款。",
+
+      q4:"这是治疗还是课程？能替代心理咨询师吗？",
+      a4:"这是实用技能课程，不是治疗。我们不处理创伤、不治疗障碍——那是心理咨询师的工作。我们训练具体的应用技能：当下处理焦虑、不内疚地说“不”、压力下稳住。如果你已在接受咨询——这门课是很好的补充。如果没有——你获得能独立使用、终身受用的工具。",
+
+      q5:"谁主讲？凭什么可以信任？",
+      a5:"主讲人是亲身走过这条路的人。课程方法来自真正有效的实践：认知行为技术、身体工作、边界话术、呼吸练习。没有玄学，没有“开心就好”。我本人回复，没有机器人——报名前、课程中、结束后都可以随便问。",
+
+      q6:"如何报名？之后会一步步发生什么？",
+      a6:"在 Telegram 私信 @Ceo_mind0。我会在 15 分钟内亲自回复。然后我会问几个问题：困扰你的是什么、你想达成什么、是否准备好 4 周的投入。合适的话——以 ¥39 为你保留名额并发送所有细节。20 个名额中只剩 4 个——之后价格会明显上涨。",
+
+      final_h2_html:"准备好开始 <em>New mental era</em> 课程，仅需 ¥39？",
+      final_p:"第一期——仅 20 个 ¥39 名额。之后涨价。",
+      footer:"New mental era • 进步从第一步开始"
+    }
+  };
+
+  var CASES = {
+    ru: [
+      { time:"Внутренний диалог • 02:14 ночи", tag:"Тревожный сценарий", avatar:"Я",
+        small:"Мысли по кругу • тревога накрывает",
+        quote:"«Я опять всё испортил. Я недостаточно хорош. Все это видят. Завтра будет только хуже».",
+        q:"Как реагируешь?",
+        answers:[["Прокручиваю эти мысли ещё 3 часа и засыпаю под утро.",0],
+                 ["Замечаю мысль как мысль, а не факт. Дышу 4-7-8 и возвращаюсь в тело.",1],
+                 ["Убеждаю себя, что всё нормально, и заедаю это печеньем.",0],
+                 ["Решаю, что я просто слабый и ничего не изменить.",0]]},
+      { time:"Переписка • 22:37", tag:"Давление на границы", avatar:"Друг",
+        small:"Пишет поздно, срочно, «только ты можешь помочь»",
+        quote:"«Слушай, выручай, ты же друг. Дай 15 000 до зарплаты, я верну».",
+        q:"Что делаешь?",
+        answers:[["Сразу перевожу — вдруг обидится.",0],
+                 ["Отвечаю: «Сейчас не могу. Давай вернёмся, когда будет удобно обоим».",1],
+                 ["Перевожу и потом месяц злюсь на себя.",0],
+                 ["Игнорирую и не отвечаю вообще.",0]]},
+      { time:"Рабочий чат • 09:12", tag:"Страх проявиться", avatar:"Коллега",
+        small:"Начальник просит выступить перед командой",
+        quote:"«Презентуй проект на созвоне в 15:00. Ты же лучше всех знаешь детали».",
+        q:"Твоя первая реакция?",
+        answers:[["Соглашаюсь, а потом трясусь и готовлю до утра.",0],
+                 ["Соглашаюсь и прошу 20 минут. Волнение есть — но я знаю техники.",1],
+                 ["Отказываюсь — я не умею говорить на публику.",0],
+                 ["Заболеваю в этот же день.",0]]},
+      { time:"Утро понедельника • 08:03", tag:"Прокрастинация и вина", avatar:"Я",
+        small:"Просыпаюсь и уже устал от списка задач",
+        quote:"«Ничего не успеваю. Все уже давно сделали. Я безнадёжно отстал».",
+        q:"Что делаешь с этим чувством?",
+        answers:[["Листаю соцсети и злюсь на себя ещё сильнее.",0],
+                 ["Выбираю одну маленькую задачу и делаю её 10 минут.",1],
+                 ["Ставлю жёсткий план на весь день, срываюсь, бросаю всё.",0],
+                 ["Решаю, что начну с понедельника. Следующего.",0]]}
+    ],
+    en: [
+      { time:"Inner dialogue • 02:14 AM", tag:"Anxiety scenario", avatar:"Me",
+        small:"Racing thoughts",
+        quote:"“I messed up again. I am not good enough. Everyone sees it.”",
+        q:"How do you react?",
+        answers:[["I replay these thoughts for 3 more hours.",0],
+                 ["I notice the thought as a thought, not a fact. Breathe 4-7-8.",1],
+                 ["I tell myself it is fine and eat cookies.",0],
+                 ["I decide I am just weak.",0]]},
+      { time:"Chat • 10:37 PM", tag:"Boundary pressure", avatar:"Friend",
+        small:"Messaging late, urgent",
+        quote:"“Come on, be a friend. Lend me $150 till payday.”",
+        q:"What do you do?",
+        answers:[["I send it right away.",0],
+                 ["I reply: “Cannot right now — that is not in my plans.”",1],
+                 ["I send it and then hate myself.",0],
+                 ["I ignore.",0]]},
+      { time:"Work chat • 09:12 AM", tag:"Fear of being seen", avatar:"Colleague",
+        small:"Boss asks you to present",
+        quote:"“You present the project on the 3 PM call.”",
+        q:"Your first reaction?",
+        answers:[["I say yes, then shake all night.",0],
+                 ["I say yes and ask for 20 minutes to prepare.",1],
+                 ["I refuse.",0],["I get sick.",0]]},
+      { time:"Monday morning • 08:03 AM", tag:"Procrastination and guilt", avatar:"Me",
+        small:"Waking up tired of the task list",
+        quote:"“I cannot keep up. Everyone has finished.”",
+        q:"What do you do?",
+        answers:[["I scroll social media and hate myself more.",0],
+                 ["I pick one small task and do it for 10 minutes.",1],
+                 ["I set a brutal plan, burn out, drop everything.",0],
+                 ["I decide to start next Monday.",0]]}
+    ],
+    zh: [
+      { time:"内心独白 • 凌晨 02:14", tag:"焦虑场景", avatar:"我",
+        small:"思绪循环",
+        quote:"“我又搞砸了。我不够好。所有人都看得出来。”",
+        q:"你会怎么反应？",
+        answers:[["继续循环这些想法 3 小时。",0],
+                 ["把想法看作想法，而非事实。4-7-8 呼吸。",1],
+                 ["告诉自己没事，用饼干压下去。",0],
+                 ["觉得自己就是弱。",0]]},
+      { time:"聊天 • 22:37", tag:"边界压力", avatar:"朋友",
+        small:"深夜发消息",
+        quote:"“帮帮忙，先借我 150 块。”",
+        q:"你会怎么做？",
+        answers:[["立刻转账。",0],
+                 ["回复：“现在不行——这不在我的计划里。”",1],
+                 ["转完账，然后生自己的气。",0],
+                 ["干脆不回。",0]]},
+      { time:"工作群 • 09:12", tag:"害怕被看见", avatar:"同事",
+        small:"老板让你做汇报",
+        quote:"“下午 3 点的会上你来讲。”",
+        q:"你的第一反应？",
+        answers:[["答应，然后抖一整晚。",0],
+                 ["答应，并请求 20 分钟准备。",1],
+                 ["拒绝。",0],["请病假。",0]]},
+      { time:"周一早上 • 08:03", tag:"拖延与内疚", avatar:"我",
+        small:"醒来就已疲惫",
+        quote:"“我什么都做不完。别人早就做完了。”",
+        q:"你怎么面对？",
+        answers:[["刷社交媒体，然后更讨厌自己。",0],
+                 ["挑一件小事做 10 分钟。",1],
+                 ["排一个狠计划，然后崩溃。",0],
+                 ["决定下周一再开始。",0]]}
+    ]
+  };
+
+  var currentLang = localStorage.getItem("nme_lang") || "ru";
+  var currentCase = 0;
+  var spots = 4;
+  var total = 20;
+
+  function applyLang(lang){
+    currentLang = lang;
+    localStorage.setItem("nme_lang", lang);
+    var dict = I18N[lang];
+    var cur = CURRENCY[lang];
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var key = el.dataset.i18n;
+      if(dict[key] === undefined) return;
+      if(typeof dict[key] === "function") return;
+      var isHtml = key.endsWith("_html");
+      if(isHtml) el.innerHTML = dict[key];
+      else el.textContent = dict[key];
+    });
+
+    var newPrice = document.getElementById("newPrice");
+    var oldPrice = document.getElementById("oldPrice");
+    var heroCta1 = document.getElementById("heroCta1");
+    var priceCta = document.getElementById("priceCta");
+    var finalCta = document.getElementById("finalCta");
+    if(newPrice) newPrice.textContent = cur.new;
+    if(oldPrice) oldPrice.textContent = cur.old;
+    if(heroCta1) heroCta1.textContent = cur.ctaHero;
+    if(priceCta) priceCta.textContent = cur.ctaPrice;
+    if(finalCta) finalCta.textContent = cur.ctaFinal;
+
+    var statPrice = document.getElementById("statPrice");
+    if(statPrice){
+      statPrice.dataset.count = cur.statEnd;
+      statPrice.dataset.suffix = cur.statSuffix;
+    }
+    var statDays = document.getElementById("statDays");
+    if(statDays){
+      statDays.dataset.count = 21;
+      statDays.dataset.suffix = cur.days;
+    }
+
+    document.querySelectorAll(".lang button").forEach(function(b){
+      if(b.dataset.lang === lang) b.classList.add("active");
+      else b.classList.remove("active");
+    });
+
+    renderSpots();
+    renderCase();
+    restartCounters();
+  }
+
+  function restartCounters(){
+    document.querySelectorAll(".stat .num").forEach(function(el){ el.textContent = "0"; });
+    initCounters();
+  }
+
+  function renderCase(){
+    var list = CASES[currentLang];
+    var c = list[currentCase % list.length];
+    var el;
+    el = document.getElementById("caseTime"); if(el) el.textContent = c.time;
+    el = document.getElementById("caseTag"); if(el) el.textContent = c.tag;
+    el = document.getElementById("caseAvatar"); if(el) el.textContent = c.avatar;
+    el = document.getElementById("caseSmall"); if(el) el.textContent = c.small;
+    el = document.getElementById("caseQuote"); if(el) el.textContent = c.quote;
+    el = document.getElementById("caseQuestion"); if(el) el.textContent = c.q;
+
+    var answers = document.getElementById("answers");
+    if(answers){
+      answers.dataset.done = "";
+      answers.innerHTML = "";
+      c.answers.forEach(function(a){
+        var btn = document.createElement("button");
+        btn.textContent = a[0];
+        btn.dataset.ok = a[1];
+        answers.appendChild(btn);
+      });
+    }
+
+    var verdict = document.getElementById("verdict");
+    if(verdict){ verdict.style.display = "none"; verdict.innerHTML = ""; }
+  }
+
+  var answersEl = document.getElementById("answers");
+  if(answersEl){
+    answersEl.addEventListener("click", function(e){
+      var answers = e.target.parentElement;
+      var btn = e.target.closest("button");
+      if(!btn || answers.dataset.done) return;
+      answers.dataset.done = "1";
+      var ok = btn.dataset.ok === "1";
+      btn.classList.add(ok ? "correct" : "wrong");
+      if(!ok){
+        var correct = answers.querySelector("[data-ok='1']");
+        if(correct) correct.classList.add("correct");
+      }
+      var verdict = document.getElementById("verdict");
+      if(verdict){
+        verdict.style.display = "block";
+        verdict.innerHTML = ok ? I18N[currentLang].verdict_ok : I18N[currentLang].verdict_bad;
+      }
+    });
+  }
+
+  var langEl = document.getElementById("lang");
+  if(langEl){
+    langEl.addEventListener("click", function(e){
+      var btn = e.target.closest("button");
+      if(!btn) return;
+      applyLang(btn.dataset.lang);
+    });
+  }
+
+  var progress = document.getElementById("progress");
+  if(progress){
+    window.addEventListener("scroll", function(){
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.width = (window.scrollY / h * 100) + "%";
+    });
+  }
+
+  /* ===== НОУТБУК РАСКРЫВАЕТСЯ ПРИ СКРОЛЛЕ ===== */
+  var laptop = document.getElementById("laptop");
+  if(laptop){
+    var laptopIo = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          laptop.classList.add("open");
+          laptopIo.unobserve(e.target);
+        }
+      });
+    }, {threshold:.35});
+    laptopIo.observe(laptop);
+  }
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add("show"); io.unobserve(e.target); }
+    });
+  }, {threshold:.12});
+  document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+
+  function initCounters(){
+    var counters = document.querySelectorAll(".stat .num");
+    var cio = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          var el = e.target;
+          var end = +el.dataset.count;
+          var suffix = el.dataset.suffix || "";
+          var cur = 0;
+          var step = end / 40;
+          var t = setInterval(function(){
+            cur += step;
+            if(cur >= end){ cur = end; clearInterval(t); }
+            el.textContent = Math.floor(cur) + suffix;
+          }, 24);
+          cio.unobserve(el);
+        }
+      });
+    }, {threshold:.4});
+    counters.forEach(function(c){ cio.observe(c); });
+  }
+
+  function renderSpots(){
+    var spotsCount = document.getElementById("spotsCount");
+    var spotsBar = document.getElementById("spotsBar");
+    if(!spotsCount || !spotsBar) return;
+    var taken = total - spots;
+    var fn = I18N[currentLang].spots_count;
+    spotsCount.textContent = (typeof fn === "function") ? fn(spots, total) : ("осталось " + spots + " из " + total);
+    spotsBar.style.width = ((taken/total)*100) + "%";
+  }
+
+  setInterval(function(){
+    if(spots > 1){ spots--; renderSpots(); }
+  }, 45000);
+
+  currentCase = Math.floor(Math.random() * CASES.ru.length);
+  applyLang(currentLang);
+  initCounters();
+</script>
+
+</body>
+</html>
